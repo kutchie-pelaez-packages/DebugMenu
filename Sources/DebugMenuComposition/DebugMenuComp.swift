@@ -16,21 +16,28 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
         provider: DebugMenuProvider,
         appearanceManager: AppearanceManager,
         localizationManager: LocalizationManager,
-        wordingManager: TweakReceiver
+        wordingManager: TweakReceiver,
+        additionalTweakReceivers: [TweakReceiver] = []
     ) {
         self.environment = environment
         self.provider = provider
         self.appearanceManager = appearanceManager
         self.localizationManager = localizationManager
-        self.wordingManager = wordingManager
-        registerTweakReceivers()
+
+        register(
+            tweakReceivers: [
+                appearanceManager,
+                localizationManager,
+                wordingManager,
+                debugGridOverlay
+            ] + additionalTweakReceivers
+        )
     }
 
     let environment: Environment
     let provider: DebugMenuProvider
     let appearanceManager: AppearanceManager
     let localizationManager: LocalizationManager
-    let wordingManager: TweakReceiver
 
     private var isDebugMenuShown = false
 
@@ -73,13 +80,8 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
 
     // MARK: -
 
-    private func registerTweakReceivers() {
-        tweakEmitter.register(appearanceManager)
-        tweakEmitter.register(localizationManager)
-        tweakEmitter.register(wordingManager)
-        if let debugGridOverlay = debugGridOverlay {
-            tweakEmitter.register(debugGridOverlay)
-        }
+    private func register(tweakReceivers: [TweakReceiver?]) {
+        tweakReceivers.unwrapped().forEach(tweakEmitter.register)
     }
 
     private func produceDebugMenuRouter() -> Routable? {
