@@ -39,8 +39,6 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
     let appearanceManager: AppearanceManager
     let localizationManager: LocalizationManager
 
-    private var isDebugMenuShown = false
-
     lazy var tweakEmitter: TweakEmitter = {
         TweakEmitterFactory().produce()
     }()
@@ -125,12 +123,10 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
         guard let debugMenuRouter = produceDebugMenuRouter() else { return }
 
         provider.routerResolver().attach(debugMenuRouter)
-        isDebugMenuShown = true
     }
 
     private func dismissDebugMenu() {
         provider.routerResolver().detach(DebugMenuRouterIdentifiers.debugMenu)
-        isDebugMenuShown = false
     }
 
     // MARK: - DebugMenuDelegate
@@ -142,6 +138,14 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
     // MARK: - DebugMenuOverlayDelegate
 
     public func debugMenuOverlayDidRequestAction() {
-        (isDebugMenuShown ? dismissDebugMenu : presentDebugMenu)()
+        let parentRouter = provider.routerResolver()
+
+        if let debugMenuRouter = parentRouter.children.first(where: { $0.id == DebugMenuRouterIdentifiers.debugMenu }) {
+            guard debugMenuRouter.stateSubject.value == .attached else { return }
+
+            dismissDebugMenu()
+        } else {
+            presentDebugMenu()
+        }
     }
 }
