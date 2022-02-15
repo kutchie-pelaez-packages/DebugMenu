@@ -16,6 +16,7 @@ protocol DebugMenuSectionBuilder {
     func build(for grid: DebugMenuGridDomain.Grid?) -> System.TableView.Section?
     func build(for safeArea: DebugMenuGridDomain.SafeArea?) -> System.TableView.Section?
     func build(for centringGuides: DebugMenuGridDomain.CentringGuides?) -> System.TableView.Section?
+    func buildLoggingSection() -> System.TableView.Section
 }
 
 private enum Symbols: SymbolsCollection {
@@ -26,13 +27,16 @@ private enum Symbols: SymbolsCollection {
 
 struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
     init(
+        interactor: DebugMenuInteractor,
         tweakEmitter: TweakEmitter,
         localizationManager: LocalizationManager
     ) {
+        self.interactor = interactor
         self.tweakEmitter = tweakEmitter
         self.localizationManager = localizationManager
     }
 
+    private weak var interactor: DebugMenuInteractor?
     private let tweakEmitter: TweakEmitter
     private let localizationManager: LocalizationManager
 
@@ -357,6 +361,25 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
                             )
                         }
                     )
+                )
+            ]
+        )
+    }
+
+    func buildLoggingSection() -> System.TableView.Section {
+        return System.TableView.Section(
+            rows: [
+                System.TableView.Row(
+                    content: System.TableView.SystemContent(
+                        title: System.TableView.SystemContent.Title(
+                            text: "View logs",
+                            font: System.Fonts.Mono.regular(17),
+                            color: System.Colors.Tint.primary
+                        )
+                    ),
+                    action: {
+                        interactor?.showLogs()
+                    }
                 )
             ]
         )

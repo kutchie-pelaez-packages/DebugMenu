@@ -2,6 +2,7 @@ import CoreRIB
 import DebugMenuDomains
 import DebugMenuRIB
 import LocalizationManager
+import LogsExtractor
 import TweakEmitter
 
 struct DebugMenuDependenciesImpl: DebugMenuDependencies {
@@ -15,11 +16,9 @@ struct DebugMenuDependenciesImpl: DebugMenuDependencies {
 
     // MARK: - Scoped
 
-    var tweakEmitter: TweakEmitter {
-        parent.tweakEmitter
-    }
+    var tweakEmitter: TweakEmitter { parent.tweakEmitter }
 
-    var localizationManager: LocalizationManager {
-        parent.localizationManager
-    }
+    var localizationManager: LocalizationManager { parent.localizationManager }
+
+    var logsExtractor: LogsExtractor { parent.logsExtractor }
 }

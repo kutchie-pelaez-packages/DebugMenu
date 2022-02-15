@@ -2,30 +2,30 @@ import Combine
 import Core
 import CoreUI
 import DebugMenuDomains
+import LogsExtractor
 
-protocol DebugMenuInteractor {
+protocol DebugMenuInteractor: AnyObject {
     func close()
     func selectDomain(at index: Int)
+    func showLogs()
 }
 
 final class DebugMenuInteractorImpl: DebugMenuInteractor {
     init(
         domains: DebugMenuDomains,
-        sectionBuilder: DebugMenuSectionBuilder,
         delegate: DebugMenuDelegate
     ) {
         self.domains = domains
-        self.sectionBuilder = sectionBuilder
         self.delegate = delegate
         subscribeToEvents()
     }
 
     private let domains: DebugMenuDomains
-    private let sectionBuilder: DebugMenuSectionBuilder
     private weak var delegate: DebugMenuDelegate?
 
     weak var router: DebugMenuRouter?
     weak var viewController: DebugMenuViewController?
+    var sectionBuilder: DebugMenuSectionBuilder?
 
     private var cancellables = [AnyCancellable]()
     private var selectedDomainIndex: Int = 0 {
@@ -71,18 +71,19 @@ final class DebugMenuInteractorImpl: DebugMenuInteractor {
 
     private func makeGeneralSections() -> [System.TableView.Section] {
         [
-            sectionBuilder.build(for: domains.generalDomain?.localization),
-            sectionBuilder.build(for: domains.generalDomain?.userInterface),
-            sectionBuilder.build(for: domains.generalDomain?.session),
-            sectionBuilder.build(for: domains.generalDomain?.onboarding)
+            sectionBuilder?.build(for: domains.generalDomain?.localization),
+            sectionBuilder?.build(for: domains.generalDomain?.userInterface),
+            sectionBuilder?.build(for: domains.generalDomain?.session),
+            sectionBuilder?.build(for: domains.generalDomain?.onboarding),
+            sectionBuilder?.buildLoggingSection()
         ].unwrapped()
     }
 
     private func makeGridSections() -> [System.TableView.Section] {
         [
-            sectionBuilder.build(for: domains.gridDomain?.grid),
-            sectionBuilder.build(for: domains.gridDomain?.safeArea),
-            sectionBuilder.build(for: domains.gridDomain?.centringGuides)
+            sectionBuilder?.build(for: domains.gridDomain?.grid),
+            sectionBuilder?.build(for: domains.gridDomain?.safeArea),
+            sectionBuilder?.build(for: domains.gridDomain?.centringGuides)
         ].unwrapped()
     }
 
@@ -98,5 +99,9 @@ final class DebugMenuInteractorImpl: DebugMenuInteractor {
 
     func selectDomain(at index: Int) {
         selectedDomainIndex = index
+    }
+
+    func showLogs() {
+        router?.routeToLogs()
     }
 }

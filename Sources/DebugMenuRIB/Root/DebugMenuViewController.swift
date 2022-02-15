@@ -52,7 +52,7 @@ final class DebugMenuViewControllerImpl: ViewController, DebugMenuViewController
         }
     }
 
-    // MARK: - DebugMenuView
+    // MARK: - DebugMenuViewControllerImpl
 
     var state: System.TableView.State {
         get {

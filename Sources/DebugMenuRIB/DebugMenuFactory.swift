@@ -1,6 +1,7 @@
 import CoreRIB
 import DebugMenuDomains
 import LocalizationManager
+import LogsExtractor
 import TweakEmitter
 
 public protocol DebugMenuDependencies {
@@ -9,6 +10,7 @@ public protocol DebugMenuDependencies {
     var delegate: DebugMenuDelegate { get }
     var tweakEmitter: TweakEmitter { get }
     var localizationManager: LocalizationManager { get }
+    var logsExtractor: LogsExtractor { get }
 }
 
 public struct DebugMenuArgs {
@@ -36,11 +38,13 @@ public struct DebugMenuFactory: RouterFactory {
     public func produce(dependencies: DebugMenuDependencies) -> Routable {
         let interactor = DebugMenuInteractorImpl(
             domains: dependencies.domains,
-            sectionBuilder: DebugMenuSectionBuilderImpl(
-                tweakEmitter: dependencies.tweakEmitter,
-                localizationManager: dependencies.localizationManager
-            ),
             delegate: dependencies.delegate
+        )
+
+        let sectionBuilder = DebugMenuSectionBuilderImpl(
+            interactor: interactor,
+            tweakEmitter: dependencies.tweakEmitter,
+            localizationManager: dependencies.localizationManager
         )
         
         let viewController = DebugMenuViewControllerImpl(
@@ -50,11 +54,14 @@ public struct DebugMenuFactory: RouterFactory {
         let router = DebugMenuRouterImpl(
             interactor: interactor,
             viewController: viewController,
+            logsExtractor: dependencies.logsExtractor,
+            delegate: dependencies.delegate,
             presentationContext: dependencies.presentationContext
         )
 
         interactor.router = router
         interactor.viewController = viewController
+        interactor.sectionBuilder = sectionBuilder
 
         viewController.invokeWhenViewIsLoaded {
             interactor.start()

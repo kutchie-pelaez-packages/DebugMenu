@@ -7,6 +7,7 @@ import DebugMenuDomains
 import DebugMenuOverlay
 import DebugMenuRIB
 import LocalizationManager
+import LogsExtractor
 import SessionManager
 import Tweak
 import TweakEmitter
@@ -16,6 +17,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
         environment: Environment,
         provider: DebugMenuProvider,
         sessionManager: SessionManager,
+        logsExtractor: LogsExtractor,
         appearanceManager: AppearanceManager,
         localizationManager: LocalizationManager,
         wordingManager: TweakReceiver,
@@ -24,6 +26,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
         self.environment = environment
         self.provider = provider
         self.sessionManager = sessionManager
+        self.logsExtractor = logsExtractor
         self.appearanceManager = appearanceManager
         self.localizationManager = localizationManager
 
@@ -41,6 +44,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
     let environment: Environment
     let provider: DebugMenuProvider
     let sessionManager: SessionManager
+    let logsExtractor: LogsExtractor
     let appearanceManager: AppearanceManager
     let localizationManager: LocalizationManager
 
