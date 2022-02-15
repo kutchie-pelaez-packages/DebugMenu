@@ -96,9 +96,9 @@ extension Tweak {
     }
 }
 
-extension Tweak.ID {
+extension TweakID {
     public enum Onboarding {
-        public static var updateIsOnboardingPassed = Tweak.ID()
-        public static var startOnboarding = Tweak.ID()
+        public static var updateIsOnboardingPassed: TweakID { TweakID() }
+        public static var startOnboarding: TweakID { TweakID() }
     }
 }

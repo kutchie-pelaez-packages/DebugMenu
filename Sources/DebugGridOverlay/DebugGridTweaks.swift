@@ -1,11 +1,11 @@
 import Tweak
 
-extension Tweak.ID {
+extension TweakID {
     public enum Grid {
-        public static var updateGridVisibility = Tweak.ID()
-        public static var updateGridHorizontalSpacing = Tweak.ID()
-        public static var updateGridVerticalSpacing = Tweak.ID()
-        public static var updateSafeAreaVisibility = Tweak.ID()
-        public static var updateCentringGuidesVisibility = Tweak.ID()
+        public static var updateGridVisibility: TweakID { TweakID() }
+        public static var updateGridHorizontalSpacing: TweakID { TweakID() }
+        public static var updateGridVerticalSpacing: TweakID { TweakID() }
+        public static var updateSafeAreaVisibility: TweakID { TweakID() }
+        public static var updateCentringGuidesVisibility: TweakID { TweakID() }
     }
 }
