@@ -1,5 +1,5 @@
 import RouterIdentifier
 
 public enum DebugMenuRouterIdentifiers {
-    public static let debugMenu: RouterIdentifier = "debugMenu"
+    public static let debugMenu: RouterIdentifier = "DebugMenu"
 }
