@@ -4,12 +4,14 @@ import CoreUI
 import DebugMenuDomains
 import Language
 import LocalizationManager
+import SessionManager
 import Tweak
 import TweakEmitter
 
 protocol DebugMenuSectionBuilder {
     func build(for onboarding: DebugMenuGeneralDomain.Onboarding?) -> System.TableView.Section?
     func build(for userInterface: DebugMenuGeneralDomain.UserInterface?) -> System.TableView.Section?
+    func build(for session: DebugMenuGeneralDomain.Session?) -> System.TableView.Section?
     func build(for localization: DebugMenuGeneralDomain.Localization?) -> System.TableView.Section?
     func build(for grid: DebugMenuGridDomain.Grid?) -> System.TableView.Section?
     func build(for safeArea: DebugMenuGridDomain.SafeArea?) -> System.TableView.Section?
@@ -134,6 +136,41 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
                                     newValue: newAppearanceStyle
                                 )
                             )
+                        }
+                    )
+                )
+            ]
+        )
+    }
+
+    func build(for session: DebugMenuGeneralDomain.Session?) -> System.TableView.Section? {
+        guard let session = session else { return nil }
+
+        let currentSessionNumber = session.sessionResolver()
+
+        return System.TableView.Section(
+            rows: [
+                System.TableView.Row(
+                    content: System.TableView.SystemContent(
+                        title: System.TableView.SystemContent.Title(
+                            text: "Current session: \(currentSessionNumber))",
+                            font: System.Fonts.Mono.regular(17)
+                        )
+                    ),
+                    trailingContent: .stepper(
+                        value: Double(currentSessionNumber),
+                        action: { newValue in
+                            let newSessionNumber = Int(newValue)
+
+                            if newSessionNumber > currentSessionNumber {
+                                tweakEmitter.emit(
+                                    .General.Session.incrementSessionNumber
+                                )
+                            } else if newSessionNumber < currentSessionNumber {
+                                tweakEmitter.emit(
+                                    .General.Session.decrementSessionNumber
+                                )
+                            }
                         }
                     )
                 )

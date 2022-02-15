@@ -1,6 +1,7 @@
 import AppearanceStyle
 import DebugGridOverlay
 import Language
+import SessionManager
 import Tweak
 import Wording
 
@@ -44,6 +45,16 @@ extension Tweak {
 
             static var fetchAndUpdateWording: Tweak {
                 Tweak(id: .Localization.fetchAndUpdateWording)
+            }
+        }
+
+        enum Session {
+            static var incrementSessionNumber: Tweak {
+                Tweak(id: .Session.incrementSessionNumber)
+            }
+            
+            static var decrementSessionNumber: Tweak {
+                Tweak(id: .Session.decrementSessionNumber)
             }
         }
     }

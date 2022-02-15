@@ -11,6 +11,9 @@ struct DebugMenuGeneralDomainFactory {
             userInterface: DebugMenuGeneralDomain.UserInterface(
                 appearanceStyleResolver: { parent.appearanceManager.appearanceStyleSubject.value }
             ),
+            session: DebugMenuGeneralDomain.Session(
+                sessionResolver: { parent.sessionManager.session }
+            ),
             localization: DebugMenuGeneralDomain.Localization(
                 languageResolver: { parent.localizationManager.languageSubject.value }
             )

@@ -73,6 +73,7 @@ final class DebugMenuInteractorImpl: DebugMenuInteractor {
         [
             sectionBuilder.build(for: domains.generalDomain?.localization),
             sectionBuilder.build(for: domains.generalDomain?.userInterface),
+            sectionBuilder.build(for: domains.generalDomain?.session),
             sectionBuilder.build(for: domains.generalDomain?.onboarding)
         ].unwrapped()
     }
