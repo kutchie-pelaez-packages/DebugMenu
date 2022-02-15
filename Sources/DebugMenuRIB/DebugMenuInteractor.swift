@@ -82,7 +82,7 @@ final class DebugMenuInteractorImpl: DebugMenuInteractor {
         [
             sectionBuilder.build(for: domains.gridDomain?.grid),
             sectionBuilder.build(for: domains.gridDomain?.safeArea),
-            sectionBuilder.build(for: domains.gridDomain?.centringGuides),
+            sectionBuilder.build(for: domains.gridDomain?.centringGuides)
         ].unwrapped()
     }
 

@@ -12,7 +12,7 @@ struct DebugMenuGeneralDomainFactory {
                 appearanceStyleResolver: { parent.appearanceManager.appearanceStyleSubject.value }
             ),
             session: DebugMenuGeneralDomain.Session(
-                sessionResolver: { parent.sessionManager.session }
+                sessionResolver: { parent.sessionManager.sessionValueSubject.value }
             ),
             localization: DebugMenuGeneralDomain.Localization(
                 languageResolver: { parent.localizationManager.languageSubject.value }

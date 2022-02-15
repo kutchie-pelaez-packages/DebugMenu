@@ -29,6 +29,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
 
         register(
             tweakReceivers: [
+                sessionManager,
                 appearanceManager,
                 localizationManager,
                 wordingManager,

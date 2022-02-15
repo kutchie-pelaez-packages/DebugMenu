@@ -153,7 +153,7 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
                 System.TableView.Row(
                     content: System.TableView.SystemContent(
                         title: System.TableView.SystemContent.Title(
-                            text: "Current session: \(currentSessionNumber))",
+                            text: "Current session: \(currentSessionNumber)",
                             font: System.Fonts.Mono.regular(17)
                         )
                     ),
