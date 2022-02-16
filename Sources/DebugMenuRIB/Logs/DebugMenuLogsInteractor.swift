@@ -24,6 +24,9 @@ final class DebugMenuLogsInteractorImpl: DebugMenuLogsInteractor {
 
     // MARK: - DebugMenuInteractor
 
+    // yellow:
+    // red:
+
     func start() {
         guard
             let logsData = try? logsExtractor.extract(),
@@ -32,7 +35,46 @@ final class DebugMenuLogsInteractorImpl: DebugMenuLogsInteractor {
             return
         }
 
-        viewController?.setLogs(logsString)
+        let result = NSMutableAttributedString()
+
+        let lines = logsString.split(
+            separator: "\n",
+            omittingEmptySubsequences: false
+        )
+
+        for line in lines {
+            let backgroundColor: UIColor
+            if line.contains("🔴") {
+                backgroundColor = UIColor(hex: 0xF9D5D256)
+            } else if line.contains("🟡") {
+                backgroundColor = UIColor(hex: 0xFFF3CB59)
+            } else {
+                backgroundColor = .clear
+            }
+
+            let replacedline = line
+                .replacingOccurrences(
+                    of: "🔴 ",
+                    with: ""
+                )
+                .replacingOccurrences(
+                    of: "🟡 ",
+                    with: ""
+                ) + "\n"
+
+            result.append(
+                NSAttributedString(
+                    string: replacedline,
+                    attributes: [
+                        .font: DebugMenuLogsViewControllerImpl.font,
+                        .foregroundColor: System.Colors.Label.primary,
+                        .backgroundColor: backgroundColor
+                    ]
+                )
+            )
+        }
+
+        viewController?.setLogs(result)
     }
 
     func close() {
