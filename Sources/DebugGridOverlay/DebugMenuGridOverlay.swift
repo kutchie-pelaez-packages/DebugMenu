@@ -1,7 +1,7 @@
 import CoreUI
 import Tweak
 
-public protocol DebugGridOverlay: WindowOverlay, TweakReceiver {
+public protocol DebugMenuGridOverlay: WindowOverlay, TweakReceiver {
     var isGridVisible: Bool { get }
     var isSafeAreaVisible: Bool { get }
     var isCentringGuidesVisible: Bool { get }

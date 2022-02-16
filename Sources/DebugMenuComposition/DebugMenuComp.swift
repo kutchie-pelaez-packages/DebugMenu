@@ -36,7 +36,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
                 appearanceManager,
                 localizationManager,
                 wordingManager,
-                debugGridOverlay
+                debugMenuGridOverlay
             ] + additionalTweakReceivers
         )
     }
@@ -63,8 +63,8 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
         }
     }
 
-    lazy var debugGridOverlay: DebugGridOverlay? = {
-        DebugGridOverlayFactory().produce(
+    lazy var debugMenuGridOverlay: DebugMenuGridOverlay? = {
+        DebugMenuGridOverlayFactory().produce(
             environment: environment
         )
     }()
@@ -80,7 +80,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
 
     public var overlays: [WindowOverlay] {
         return [
-            debugGridOverlay,
+            debugMenuGridOverlay,
             debugMenuOverlay
         ].unwrapped()
     }

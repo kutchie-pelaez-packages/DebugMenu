@@ -79,7 +79,11 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
                         )
                     }
                 )
-            ]
+            ],
+            header: System.TableView.SystemHeader(
+                text: "ONBOARDING",
+                font: System.Fonts.Mono.regular(13)
+            )
         )
     }
 
@@ -143,7 +147,11 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
                         }
                     )
                 )
-            ]
+            ],
+            header: System.TableView.SystemHeader(
+                text: "USER INTERFACE",
+                font: System.Fonts.Mono.regular(13)
+            )
         )
     }
 
@@ -178,7 +186,11 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
                         }
                     )
                 )
-            ]
+            ],
+            header: System.TableView.SystemHeader(
+                text: "SESSION",
+                font: System.Fonts.Mono.regular(13)
+            )
         )
     }
 
@@ -246,7 +258,13 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
             )
         )
 
-        return System.TableView.Section(rows: rows)
+        return System.TableView.Section(
+            rows: rows,
+            header: System.TableView.SystemHeader(
+                text: "LOCALIZATION",
+                font: System.Fonts.Mono.regular(13)
+            )
+        )
     }
 
     func build(for grid: DebugMenuGridDomain.Grid?) -> System.TableView.Section? {
@@ -308,7 +326,11 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
                         }
                     )
                 )
-            ]
+            ],
+            header: System.TableView.SystemHeader(
+                text: "GRID",
+                font: System.Fonts.Mono.regular(13)
+            )
         )
     }
 
@@ -335,7 +357,11 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
                         }
                     )
                 )
-            ]
+            ],
+            header: System.TableView.SystemHeader(
+                text: "SAFE AREA",
+                font: System.Fonts.Mono.regular(13)
+            )
         )
     }
 
@@ -362,7 +388,11 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
                         }
                     )
                 )
-            ]
+            ],
+            header: System.TableView.SystemHeader(
+                text: "GUIDES",
+                font: System.Fonts.Mono.regular(13)
+            )
         )
     }
 
@@ -393,7 +423,11 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
                         interactor?.exportLogs()
                     }
                 )
-            ]
+            ],
+            header: System.TableView.SystemHeader(
+                text: "LOGGING",
+                font: System.Fonts.Mono.regular(13)
+            )
         )
     }
 }

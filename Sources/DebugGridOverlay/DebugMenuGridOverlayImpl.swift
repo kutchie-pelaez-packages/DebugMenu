@@ -3,7 +3,7 @@ import CoreUI
 import Tweak
 import UIKit
 
-final class DebugGridOverlayImpl: PassthroughView, DebugGridOverlay {
+final class DebugMenuGridOverlayImpl: PassthroughView, DebugMenuGridOverlay {
     init?(environment: Environment) {
         guard environment.isDev else { return nil }
 
@@ -12,10 +12,10 @@ final class DebugGridOverlayImpl: PassthroughView, DebugGridOverlay {
 
     // MARK: - UI
 
-    private var gridView: DebugGridView!
+    private var gridView: DebugMenuGridView!
 
     override func configureViews() {
-        gridView = DebugGridView()
+        gridView = DebugMenuGridView()
         addSubviews(gridView)
     }
 

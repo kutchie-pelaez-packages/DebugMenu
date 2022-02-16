@@ -11,7 +11,7 @@ private let crossLineWidth = 1.5
 private let crossDimension = 16.0
 private let crossColor = System.Colors.Tint.red.withAlphaComponent(0.5)
 
-final class DebugGridView: PassthroughView {
+final class DebugMenuGridView: PassthroughView {
     var isSafeAreaVisible = false {
         didSet {
             setNeedsDisplay()
