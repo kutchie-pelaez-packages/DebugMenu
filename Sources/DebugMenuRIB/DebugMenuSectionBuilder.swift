@@ -380,6 +380,18 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
                     action: {
                         interactor?.showLogs()
                     }
+                ),
+                System.TableView.Row(
+                    content: System.TableView.SystemContent(
+                        title: System.TableView.SystemContent.Title(
+                            text: "Export logs",
+                            font: System.Fonts.Mono.regular(17),
+                            color: System.Colors.Tint.primary
+                        )
+                    ),
+                    action: {
+                        interactor?.exportLogs()
+                    }
                 )
             ]
         )

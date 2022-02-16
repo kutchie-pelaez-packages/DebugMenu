@@ -38,6 +38,7 @@ public struct DebugMenuFactory: RouterFactory {
     public func produce(dependencies: DebugMenuDependencies) -> Routable {
         let interactor = DebugMenuInteractorImpl(
             domains: dependencies.domains,
+            logsExtractor: dependencies.logsExtractor,
             delegate: dependencies.delegate
         )
 

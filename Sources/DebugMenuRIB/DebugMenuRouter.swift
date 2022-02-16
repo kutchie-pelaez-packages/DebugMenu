@@ -8,6 +8,7 @@ private final class DebugMenuViewNavigationController: UINavigationController, P
 
 protocol DebugMenuRouter: AnyObject {
     func routeToLogs()
+    func routeToShareSheet(with activityItems: [Any])
 }
 
 final class DebugMenuRouterImpl: Router, DebugMenuRouter {
@@ -70,6 +71,17 @@ final class DebugMenuRouterImpl: Router, DebugMenuRouter {
 
         navigationController.pushViewController(
             debugMenuLogsViewController,
+            animated: true
+        )
+    }
+
+    func routeToShareSheet(with activityItems: [Any]) {
+        let activityViewController = UIActivityViewController(
+            activityItems: activityItems,
+            applicationActivities: nil
+        )
+        navigationController.present(
+            activityViewController,
             animated: true
         )
     }

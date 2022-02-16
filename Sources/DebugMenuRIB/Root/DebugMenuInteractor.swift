@@ -8,19 +8,23 @@ protocol DebugMenuInteractor: AnyObject {
     func close()
     func selectDomain(at index: Int)
     func showLogs()
+    func exportLogs()
 }
 
 final class DebugMenuInteractorImpl: DebugMenuInteractor {
     init(
         domains: DebugMenuDomains,
+        logsExtractor: LogsExtractor,
         delegate: DebugMenuDelegate
     ) {
         self.domains = domains
+        self.logsExtractor = logsExtractor
         self.delegate = delegate
         subscribeToEvents()
     }
 
     private let domains: DebugMenuDomains
+    private let logsExtractor: LogsExtractor
     private weak var delegate: DebugMenuDelegate?
 
     weak var router: DebugMenuRouter?
@@ -103,5 +107,16 @@ final class DebugMenuInteractorImpl: DebugMenuInteractor {
 
     func showLogs() {
         router?.routeToLogs()
+    }
+
+    func exportLogs() {
+        guard
+            let logsData = try? logsExtractor.extract(),
+            let logsString = String(data: logsData, encoding: .utf8)
+        else {
+            return
+        }
+
+        router?.routeToShareSheet(with: [logsString])
     }
 }
