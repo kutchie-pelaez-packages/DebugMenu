@@ -15,6 +15,7 @@ import TweakEmitter
 public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
     public init(
         environment: Environment,
+        customDomains: [DebugMenuCustomDomain],
         provider: DebugMenuProvider,
         sessionManager: SessionManager,
         logsExtractor: LogsExtractor,
@@ -24,6 +25,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
         additionalTweakReceivers: [TweakReceiver] = []
     ) {
         self.environment = environment
+        self.customDomains = customDomains
         self.provider = provider
         self.sessionManager = sessionManager
         self.logsExtractor = logsExtractor
@@ -42,6 +44,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
     }
 
     let environment: Environment
+    let customDomains: [DebugMenuCustomDomain]
     let provider: DebugMenuProvider
     let sessionManager: SessionManager
     let logsExtractor: LogsExtractor
@@ -107,6 +110,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
         let domains = DebugMenuDomains(
             generalDomain: generalDomainFactory.produce(),
             gridDomain: gridDomainFactory.produce(),
+            customDomains: customDomains,
             updatePublisherResolver: updatePublisherResolverFactory.produce()
         )
 

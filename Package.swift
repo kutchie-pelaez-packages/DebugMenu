@@ -91,7 +91,8 @@ let package = Package(
             dependencies: [
                 .product(name: "AppearanceStyle", package: "Appearance"),
                 .product(name: "Core", package: "Core"),
-                .product(name: "Language", package: "Localization")
+                .product(name: "Language", package: "Localization"),
+                .product(name: "Tweak", package: "Tweaks")
             ]
         ),
         .target(

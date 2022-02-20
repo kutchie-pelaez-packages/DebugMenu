@@ -29,7 +29,9 @@ final class DebugMenuInteractorImpl: DebugMenuInteractor {
 
     weak var router: DebugMenuRouter?
     weak var viewController: DebugMenuViewController?
+
     var sectionBuilder: DebugMenuSectionBuilder?
+    var customSectionBuilder: DebugMenuCustomSectionBuilder?
 
     private var cancellables = [AnyCancellable]()
     private var selectedDomainIndex: Int = 0 {
@@ -60,16 +62,27 @@ final class DebugMenuInteractorImpl: DebugMenuInteractor {
             sections = makeGridSections()
 
         default:
-            safeCrash()
-            sections = []
+            guard let customDomain = domains.customDomains?[safe: selectedDomainIndex - 2] else {
+                safeCrash()
+                sections = []
+                break
+            }
+
+            sections = makeCustomSections(for: customDomain)
         }
 
-        viewController?.state = System.TableView.State(sections: sections)
+        let customDomainTitles = domains.customDomains?.map {
+            $0.title
+        } ?? []
+
+        viewController?.state = System.TableView.State(
+            sections: sections
+        )
         viewController?.setDomains(
             [
                 domains.generalDomain.isNotNil ? "General" : nil,
                 domains.gridDomain.isNotNil ? "Grid" : nil,
-            ].unwrapped()
+            ].unwrapped() + customDomainTitles
         )
     }
 
@@ -89,6 +102,12 @@ final class DebugMenuInteractorImpl: DebugMenuInteractor {
             sectionBuilder?.build(for: domains.gridDomain?.safeArea),
             sectionBuilder?.build(for: domains.gridDomain?.centringGuides)
         ].unwrapped()
+    }
+
+    private func makeCustomSections(for customDomain: DebugMenuCustomDomain) -> [System.TableView.Section] {
+        guard let customSectionBuilder = customSectionBuilder else { return [] }
+
+        return customDomain.sections.map(customSectionBuilder.build)
     }
 
     // MARK: - DebugMenuInteractor

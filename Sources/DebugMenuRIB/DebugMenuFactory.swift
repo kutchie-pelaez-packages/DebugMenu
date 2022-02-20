@@ -47,7 +47,11 @@ public struct DebugMenuFactory: RouterFactory {
             tweakEmitter: dependencies.tweakEmitter,
             localizationManager: dependencies.localizationManager
         )
-        
+
+        let customSectionBuilder = DebugMenuCustomSectionBuilderImpl(
+            tweakEmitter: dependencies.tweakEmitter
+        )
+
         let viewController = DebugMenuViewControllerImpl(
             interactor: interactor
         )
@@ -63,6 +67,7 @@ public struct DebugMenuFactory: RouterFactory {
         interactor.router = router
         interactor.viewController = viewController
         interactor.sectionBuilder = sectionBuilder
+        interactor.customSectionBuilder = customSectionBuilder
 
         viewController.invokeWhenViewIsLoaded {
             interactor.start()
