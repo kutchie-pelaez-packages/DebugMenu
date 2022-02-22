@@ -12,7 +12,7 @@ extension Tweak {
                 Tweak(
                     id: .Onboarding.updateIsOnboardingPassed,
                     args: [
-                        .Common.newValue: newValue
+                        .newValue: newValue
                     ]
                 )
             }
@@ -27,7 +27,7 @@ extension Tweak {
                 Tweak(
                     id: .Appearance.updateAppearanceStyle,
                     args: [
-                        .Common.newValue: newValue
+                        .newValue: newValue
                     ]
                 )
             }
@@ -38,7 +38,7 @@ extension Tweak {
                 Tweak(
                     id: .Localization.updateLanguage,
                     args: [
-                        .Common.newValue: newValue
+                        .newValue: newValue
                     ]
                 )
             }
@@ -64,7 +64,7 @@ extension Tweak {
             Tweak(
                 id: .Grid.updateGridVisibility,
                 args: [
-                    .Common.newValue: newValue
+                    .newValue: newValue
                 ]
             )
         }
@@ -73,7 +73,7 @@ extension Tweak {
             Tweak(
                 id: .Grid.updateGridHorizontalSpacing,
                 args: [
-                    .Common.newValue: newValue
+                    .newValue: newValue
                 ]
             )
         }
@@ -82,7 +82,7 @@ extension Tweak {
             Tweak(
                 id: .Grid.updateGridVerticalSpacing,
                 args: [
-                    .Common.newValue: newValue
+                    .newValue: newValue
                 ]
             )
         }
@@ -91,7 +91,7 @@ extension Tweak {
             Tweak(
                 id: .Grid.updateSafeAreaVisibility,
                 args: [
-                    .Common.newValue: newValue
+                    .newValue: newValue
                 ]
             )
         }
@@ -100,7 +100,7 @@ extension Tweak {
             Tweak(
                 id: .Grid.updateCentringGuidesVisibility,
                 args: [
-                    .Common.newValue: newValue
+                    .newValue: newValue
                 ]
             )
         }

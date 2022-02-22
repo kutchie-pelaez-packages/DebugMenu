@@ -30,27 +30,27 @@ final class DebugMenuGridOverlayImpl: PassthroughView, DebugMenuGridOverlay {
     func receive(_ tweak: Tweak) {
         switch tweak.id {
         case .Grid.updateCentringGuidesVisibility:
-            guard let newValue = tweak.args[.Common.newValue] as? Bool else { return }
+            guard let newValue = tweak.args[.newValue] as? Bool else { return }
 
             gridView.isCentringGuidesVisible = newValue
 
         case .Grid.updateGridHorizontalSpacing:
-            guard let newValue = tweak.args[.Common.newValue] as? Double else { return }
+            guard let newValue = tweak.args[.newValue] as? Double else { return }
 
             gridView.gridHorizontalSpacing = newValue
 
         case .Grid.updateGridVerticalSpacing:
-            guard let newValue = tweak.args[.Common.newValue] as? Double else { return }
+            guard let newValue = tweak.args[.newValue] as? Double else { return }
 
             gridView.gridVerticalSpacing = newValue
 
         case .Grid.updateGridVisibility:
-            guard let newValue = tweak.args[.Common.newValue] as? Bool else { return }
+            guard let newValue = tweak.args[.newValue] as? Bool else { return }
 
             gridView.isGridVisible = newValue
 
         case .Grid.updateSafeAreaVisibility:
-            guard let newValue = tweak.args[.Common.newValue] as? Bool else { return }
+            guard let newValue = tweak.args[.newValue] as? Bool else { return }
 
             gridView.isSafeAreaVisible = newValue
 
