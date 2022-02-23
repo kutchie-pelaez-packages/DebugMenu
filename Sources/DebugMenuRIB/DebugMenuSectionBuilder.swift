@@ -4,6 +4,7 @@ import CoreUI
 import DebugMenuDomains
 import Language
 import LocalizationManager
+import PermissionsManager
 import SessionManager
 import Tweak
 import TweakEmitter
@@ -13,6 +14,7 @@ protocol DebugMenuSectionBuilder {
     func build(for userInterface: DebugMenuGeneralDomain.UserInterface?) -> System.TableView.Section?
     func build(for session: DebugMenuGeneralDomain.Session?) -> System.TableView.Section?
     func build(for localization: DebugMenuGeneralDomain.Localization?) -> System.TableView.Section?
+    func build(for permissions: DebugMenuGeneralDomain.Permissions?) -> System.TableView.Section?
     func build(for grid: DebugMenuGridDomain.Grid?) -> System.TableView.Section?
     func build(for safeArea: DebugMenuGridDomain.SafeArea?) -> System.TableView.Section?
     func build(for centringGuides: DebugMenuGridDomain.CentringGuides?) -> System.TableView.Section?
@@ -20,9 +22,12 @@ protocol DebugMenuSectionBuilder {
 }
 
 private enum Symbols: SymbolsCollection {
+    case checkmarkSealFill
     case iphoneHomebutton
-    case sunMaxFill
     case moonFill
+    case personFillQuestionmark
+    case sunMaxFill
+    case xmarkOctagonFill
 }
 
 struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
@@ -120,7 +125,7 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
                         items: [
                             Symbols.iphoneHomebutton.image,
                             Symbols.sunMaxFill.image,
-                            Symbols.moonFill.image,
+                            Symbols.moonFill.image
                         ],
                         selectedIndex: currentStyleSelectedIndex,
                         action: { selectedIndex in
@@ -262,6 +267,94 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
             rows: rows,
             header: System.TableView.SystemHeader(
                 text: "LOCALIZATION",
+                font: System.Fonts.Mono.regular(13)
+            )
+        )
+    }
+
+    func build(for permissions: DebugMenuGeneralDomain.Permissions?) -> System.TableView.Section? {
+        guard let permissions = permissions else { return nil }
+
+        func title(for domain: PermissionDomain) -> String {
+            switch domain {
+            case .photoLibrary:
+                return "Library"
+
+            case .camera:
+                return "Camera"
+
+            case .appTracking:
+                return "Tracking"
+            }
+        }
+
+        func selectedIndex(for domain: PermissionDomain) -> Int {
+            guard permissions.isPermissionStatusMockedResolver(domain) else {
+                return 0
+            }
+
+            let status = permissions.permissionStatusResolver(domain)
+
+            switch status {
+            case .notDetermined:
+                return 1
+
+            case .restricted:
+                return 2
+
+            case .permitted:
+                return 3
+            }
+        }
+
+        return System.TableView.Section(
+            rows: PermissionDomain.allCases.map { domain in
+                System.TableView.Row(
+                    content: System.TableView.SystemContent(
+                        title: System.TableView.SystemContent.Title(
+                            text: title(for: domain),
+                            font: System.Fonts.Mono.regular(17)
+                        )
+                    ),
+                    trailingContent: .segmentedControl(
+                        items: [
+                            Symbols.iphoneHomebutton.image,
+                            Symbols.personFillQuestionmark.image,
+                            Symbols.xmarkOctagonFill.image,
+                            Symbols.checkmarkSealFill.image
+                        ],
+                        selectedIndex: selectedIndex(for: domain),
+                        action: { selectedIndex in
+                            let newValue: PermissionStatus?
+                            switch selectedIndex {
+                            case 0:
+                                newValue = nil
+
+                            case 1:
+                                newValue = .notDetermined
+
+                            case 2:
+                                newValue = .restricted
+
+                            case 3:
+                                newValue = .permitted
+
+                            default:
+                                return
+                            }
+
+                            tweakEmitter.emit(
+                                .General.Permissions.updateAppearanceStyle(
+                                    domain: domain,
+                                    newValue: newValue
+                                )
+                            )
+                        }
+                    )
+                )
+            },
+            header: System.TableView.SystemHeader(
+                text: "PERMISSIONS",
                 font: System.Fonts.Mono.regular(13)
             )
         )

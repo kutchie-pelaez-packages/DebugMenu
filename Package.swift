@@ -46,6 +46,7 @@ let package = Package(
         .package(name: "CoreUI", url: "https://github.com/kutchie-pelaez-packages/CoreUI.git", .branch("master")),
         .package(name: "Localization", url: "https://github.com/kutchie-pelaez-packages/Localization.git", .branch("master")),
         .package(name: "Logging", url: "https://github.com/kutchie-pelaez-packages/Logging.git", .branch("master")),
+        .package(name: "PermissionsManager", url: "https://github.com/kutchie-pelaez-packages/PermissionsManager.git", .branch("master")),
         .package(name: "SessionManager", url: "https://github.com/kutchie-pelaez-packages/SessionManager.git", .branch("master")),
         .package(name: "Tweaks", url: "https://github.com/kutchie-pelaez-packages/Tweaks.git", .branch("master")),
         .package(name: "Wording", url: "https://github.com/kutchie-pelaez-packages/Wording.git", .branch("master"))
@@ -60,6 +61,7 @@ let package = Package(
                 .product(name: "CoreUI", package: "CoreUI"),
                 .product(name: "LocalizationManager", package: "Localization"),
                 .product(name: "LogsExtractor", package: "Logging"),
+                .product(name: "PermissionsManager", package: "PermissionsManager"),
                 .product(name: "SessionManager", package: "SessionManager"),
                 .product(name: "TweakEmitter", package: "Tweaks"),
                 .product(name: "WordingManager", package: "Wording"),
@@ -79,6 +81,7 @@ let package = Package(
                 .product(name: "Language", package: "Localization"),
                 .product(name: "LocalizationManager", package: "Localization"),
                 .product(name: "LogsExtractor", package: "Logging"),
+                .product(name: "PermissionsManager", package: "PermissionsManager"),
                 .product(name: "SessionManager", package: "SessionManager"),
                 .product(name: "Tweak", package: "Tweaks"),
                 .product(name: "TweakEmitter", package: "Tweaks"),
@@ -92,6 +95,7 @@ let package = Package(
                 .product(name: "AppearanceStyle", package: "Appearance"),
                 .product(name: "Core", package: "Core"),
                 .product(name: "Language", package: "Localization"),
+                .product(name: "PermissionsManager", package: "PermissionsManager"),
                 .product(name: "Tweak", package: "Tweaks")
             ]
         ),

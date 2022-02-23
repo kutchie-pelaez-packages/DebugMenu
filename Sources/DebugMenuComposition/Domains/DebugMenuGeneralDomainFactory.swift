@@ -16,6 +16,10 @@ struct DebugMenuGeneralDomainFactory {
             ),
             localization: DebugMenuGeneralDomain.Localization(
                 languageResolver: { parent.localizationManager.languageSubject.value }
+            ),
+            permissions: DebugMenuGeneralDomain.Permissions(
+                permissionStatusResolver: { parent.permissionsManager.permissionStatus(for: $0) },
+                isPermissionStatusMockedResolver: { parent.permissionsManager.isPermissionStatusMocked(for: $0) }
             )
         )
     }

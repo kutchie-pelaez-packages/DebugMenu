@@ -92,7 +92,8 @@ final class DebugMenuInteractorImpl: DebugMenuInteractor {
             sectionBuilder?.build(for: domains.generalDomain?.userInterface),
             sectionBuilder?.build(for: domains.generalDomain?.session),
             sectionBuilder?.build(for: domains.generalDomain?.onboarding),
-            sectionBuilder?.buildLoggingSection()
+            sectionBuilder?.buildLoggingSection(),
+            sectionBuilder?.build(for: domains.generalDomain?.permissions)
         ].unwrapped()
     }
 

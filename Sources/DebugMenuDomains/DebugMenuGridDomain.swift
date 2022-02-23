@@ -25,7 +25,6 @@ public struct DebugMenuGridDomain {
             self.horizontalSpacingResolver = horizontalSpacingResolver
             self.verticalSpacingResolver = verticalSpacingResolver
         }
-
         public let isVisibleResolver: BoolResolver
         public let horizontalSpacingResolver: DoubleResolver
         public let verticalSpacingResolver: DoubleResolver
@@ -35,7 +34,6 @@ public struct DebugMenuGridDomain {
         public init(isVisibleResolver: @escaping BoolResolver) {
             self.isVisibleResolver = isVisibleResolver
         }
-
         public let isVisibleResolver: BoolResolver
     }
 
@@ -43,7 +41,6 @@ public struct DebugMenuGridDomain {
         public init(isVisibleResolver: @escaping BoolResolver) {
             self.isVisibleResolver = isVisibleResolver
         }
-
         public let isVisibleResolver: BoolResolver
     }
 }

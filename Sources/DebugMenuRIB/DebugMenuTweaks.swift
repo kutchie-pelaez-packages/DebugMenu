@@ -1,6 +1,7 @@
 import AppearanceStyle
 import DebugGridOverlay
 import Language
+import PermissionsManager
 import SessionManager
 import Tweak
 import Wording
@@ -55,6 +56,21 @@ extension Tweak {
             
             static var decrementSessionNumber: Tweak {
                 Tweak(id: .Session.decrementSessionNumber)
+            }
+        }
+
+        enum Permissions {
+            static func updateAppearanceStyle(
+                domain: PermissionDomain,
+                newValue: PermissionStatus?
+            ) -> Tweak {
+                Tweak(
+                    id: .Permissions.updatePermissionStatus,
+                    args: [
+                        .Permissions.domain: domain,
+                        .newValue: newValue as Any
+                    ]
+                )
             }
         }
     }

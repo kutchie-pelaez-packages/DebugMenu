@@ -8,6 +8,7 @@ import DebugMenuOverlay
 import DebugMenuRIB
 import LocalizationManager
 import LogsExtractor
+import PermissionsManager
 import SessionManager
 import Tweak
 import TweakEmitter
@@ -21,6 +22,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
         logsExtractor: LogsExtractor,
         appearanceManager: AppearanceManager,
         localizationManager: LocalizationManager,
+        permissionsManager: PermissionsManager,
         wordingManager: TweakReceiver,
         additionalTweakReceivers: [TweakReceiver] = []
     ) {
@@ -31,6 +33,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
         self.logsExtractor = logsExtractor
         self.appearanceManager = appearanceManager
         self.localizationManager = localizationManager
+        self.permissionsManager = permissionsManager
 
         register(
             tweakReceivers: [
@@ -38,6 +41,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
                 appearanceManager,
                 localizationManager,
                 wordingManager,
+                permissionsManager,
                 debugMenuGridOverlay
             ] + additionalTweakReceivers
         )
@@ -50,6 +54,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
     let logsExtractor: LogsExtractor
     let appearanceManager: AppearanceManager
     let localizationManager: LocalizationManager
+    let permissionsManager: PermissionsManager
 
     lazy var tweakEmitter: TweakEmitter = {
         TweakEmitterFactory().produce()
