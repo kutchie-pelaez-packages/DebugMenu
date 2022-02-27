@@ -1,3 +1,4 @@
+import ActivityRIB
 import CoreRIB
 import LogsExtractor
 import UIKit
@@ -8,22 +9,24 @@ private final class DebugMenuViewNavigationController: UINavigationController, P
 
 protocol DebugMenuRouter: AnyObject {
     func routeToLogs()
-    func routeToShareSheet(with activityItems: [Any])
+    func routeToActivity(with text: String)
 }
 
-final class DebugMenuRouterImpl: Router, DebugMenuRouter {
+final class DebugMenuRouterImpl: Router, DebugMenuRouter, ActivityDelegate {
     init(
         interactor: DebugMenuInteractor,
         viewController: DebugMenuViewController,
         logsExtractor: LogsExtractor,
         delegate: DebugMenuDelegate,
-        presentationContext: PresentationContext
+        presentationContext: PresentationContext,
+        activityFactory: ScopedRouterFactory<ActivityArgs>
     ) {
         self.interactor = interactor
         self.viewController = viewController
         self.logsExtractor = logsExtractor
         self.delegate = delegate
         self.presentationContext = presentationContext
+        self.activityFactory = activityFactory
         super.init(id: DebugMenuRouterIdentifiers.debugMenu)
     }
 
@@ -32,6 +35,7 @@ final class DebugMenuRouterImpl: Router, DebugMenuRouter {
     private let logsExtractor: LogsExtractor
     private weak var delegate: DebugMenuDelegate?
     private let presentationContext: PresentationContext
+    private let activityFactory: ScopedRouterFactory<ActivityArgs>
 
     private lazy var navigationController: UINavigationController = {
         let navigationController = DebugMenuViewNavigationController(
@@ -75,14 +79,23 @@ final class DebugMenuRouterImpl: Router, DebugMenuRouter {
         )
     }
 
-    func routeToShareSheet(with activityItems: [Any]) {
-        let activityViewController = UIActivityViewController(
-            activityItems: activityItems,
-            applicationActivities: nil
+    func routeToActivity(with text: String) {
+        let activityItem = ActivityItem(text)
+        let activityRouter = activityFactory.produce(
+            dependencies: ActivityArgs(
+                items: [activityItem],
+                source: navigationController,
+                trackToAnalytics: false,
+                delegate: self
+            )
         )
-        navigationController.present(
-            activityViewController,
-            animated: true
-        )
+
+        attach(activityRouter)
+    }
+
+    // MARK: - ActivityDelegate
+
+    func activityDidRequestClosing() {
+        detach(ActivityRouterIdentifiers.activity)
     }
 }

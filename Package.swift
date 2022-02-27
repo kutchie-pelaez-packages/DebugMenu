@@ -40,6 +40,7 @@ let package = Package(
         )
     ],
     dependencies: [
+        .package(name: "Activity", url: "https://github.com/kutchie-pelaez-packages/Activity.git", .branch("master")),
         .package(name: "Appearance", url: "https://github.com/kutchie-pelaez-packages/Appearance.git", .branch("master")),
         .package(name: "Core", url: "https://github.com/kutchie-pelaez-packages/Core.git", .branch("master")),
         .package(name: "CoreRIB", url: "https://github.com/kutchie-pelaez-packages/CoreRIB.git", .branch("master")),
@@ -55,6 +56,7 @@ let package = Package(
         .target(
             name: "DebugMenuComposition",
             dependencies: [
+                .product(name: "ActivityComposition", package: "Activity"),
                 .product(name: "AppearanceManager", package: "Appearance"),
                 .product(name: "Core", package: "Core"),
                 .product(name: "CoreRIB", package: "CoreRIB"),
@@ -74,6 +76,7 @@ let package = Package(
         .target(
             name: "DebugMenuRIB",
             dependencies: [
+                .product(name: "ActivityRIB", package: "Activity"),
                 .product(name: "AppearanceStyle", package: "Appearance"),
                 .product(name: "Core", package: "Core"),
                 .product(name: "CoreRIB", package: "CoreRIB"),

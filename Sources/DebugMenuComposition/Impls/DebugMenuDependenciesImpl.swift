@@ -1,3 +1,4 @@
+import ActivityRIB
 import CoreRIB
 import DebugMenuDomains
 import DebugMenuRIB
@@ -21,4 +22,6 @@ struct DebugMenuDependenciesImpl: DebugMenuDependencies {
     var localizationManager: LocalizationManager { parent.localizationManager }
 
     var logsExtractor: LogsExtractor { parent.logsExtractor }
+
+    var activityFactory: ScopedRouterFactory<ActivityArgs> { parent.activityComposition.activityFactory }
 }

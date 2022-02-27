@@ -1,3 +1,4 @@
+import ActivityRIB
 import CoreRIB
 import DebugMenuDomains
 import LocalizationManager
@@ -11,6 +12,7 @@ public protocol DebugMenuDependencies {
     var tweakEmitter: TweakEmitter { get }
     var localizationManager: LocalizationManager { get }
     var logsExtractor: LogsExtractor { get }
+    var activityFactory: ScopedRouterFactory<ActivityArgs> { get }
 }
 
 public struct DebugMenuArgs {
@@ -61,7 +63,8 @@ public struct DebugMenuFactory: RouterFactory {
             viewController: viewController,
             logsExtractor: dependencies.logsExtractor,
             delegate: dependencies.delegate,
-            presentationContext: dependencies.presentationContext
+            presentationContext: dependencies.presentationContext,
+            activityFactory: dependencies.activityFactory
         )
 
         interactor.router = router

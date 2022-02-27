@@ -1,3 +1,4 @@
+import ActivityComposition
 import AppearanceManager
 import Core
 import CoreRIB
@@ -18,6 +19,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
         environment: Environment,
         customDomains: [DebugMenuCustomDomain],
         provider: DebugMenuProvider,
+        activityComposition: ActivityComp,
         sessionManager: SessionManager,
         logsExtractor: LogsExtractor,
         appearanceManager: AppearanceManager,
@@ -29,6 +31,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
         self.environment = environment
         self.customDomains = customDomains
         self.provider = provider
+        self.activityComposition = activityComposition
         self.sessionManager = sessionManager
         self.logsExtractor = logsExtractor
         self.appearanceManager = appearanceManager
@@ -50,6 +53,7 @@ public final class DebugMenuComp: DebugMenuDelegate, DebugMenuOverlayDelegate {
     let environment: Environment
     let customDomains: [DebugMenuCustomDomain]
     let provider: DebugMenuProvider
+    let activityComposition: ActivityComp
     let sessionManager: SessionManager
     let logsExtractor: LogsExtractor
     let appearanceManager: AppearanceManager

@@ -137,6 +137,6 @@ final class DebugMenuInteractorImpl: DebugMenuInteractor {
             return
         }
 
-        router?.routeToShareSheet(with: [logsString])
+        router?.routeToActivity(with: logsString)
     }
 }
