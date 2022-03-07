@@ -2,6 +2,7 @@ import Combine
 import Core
 import CoreUI
 import DebugMenuDomains
+import Foundation
 import LogsExtractor
 
 protocol DebugMenuInteractor: AnyObject {
@@ -9,6 +10,7 @@ protocol DebugMenuInteractor: AnyObject {
     func selectDomain(at index: Int)
     func showLogs()
     func exportLogs()
+    func showDocuments()
 }
 
 final class DebugMenuInteractorImpl: DebugMenuInteractor {
@@ -91,6 +93,7 @@ final class DebugMenuInteractorImpl: DebugMenuInteractor {
             sectionBuilder?.build(for: domains.generalDomain?.localization),
             sectionBuilder?.build(for: domains.generalDomain?.userInterface),
             sectionBuilder?.build(for: domains.generalDomain?.session),
+            sectionBuilder?.buildFilesSection(),
             sectionBuilder?.build(for: domains.generalDomain?.onboarding),
             sectionBuilder?.buildLoggingSection(),
             sectionBuilder?.build(for: domains.generalDomain?.permissions)
@@ -138,5 +141,9 @@ final class DebugMenuInteractorImpl: DebugMenuInteractor {
         }
 
         router?.routeToActivity(with: logsString)
+    }
+
+    func showDocuments() {
+        router?.routeToDirectoryViewer(at: FileManager.default.documents)
     }
 }

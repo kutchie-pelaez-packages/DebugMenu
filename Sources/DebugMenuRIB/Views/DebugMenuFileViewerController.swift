@@ -1,24 +1,43 @@
 import Core
 import CoreUI
-import CoreRIB
 import UIKit
 
-protocol DebugMenuLogsViewController: ViewController {
-    func setLogs(_ logsString: NSAttributedString)
-}
-
-final class DebugMenuLogsViewControllerImpl: ViewController, DebugMenuLogsViewController, UIScrollViewDelegate {
-    static let font = System.Fonts.Mono.regular(10)
-
-    init(interactor: DebugMenuLogsInteractor) {
-        self.interactor = interactor
+final class DebugMenuFileViewerController: ViewController, UIScrollViewDelegate {
+    init(
+        title: String,
+        closeBlock: @escaping Block
+    ) {
+        self._title = title
+        self.closeBlock = closeBlock
         super.init()
     }
 
-    private let interactor: DebugMenuLogsInteractor
+    private let _title: String
+    private let closeBlock: Block
+
+    // MARK: -
+
+    func setContent(_ content: NSAttributedString) {
+        let stringSize = content.size()
+
+        label.attributedText = content
+        scrollView.contentSize = stringSize
+        linesView.numberOfLines = content.string.filter { $0 == "\n" }.count
+        linesView.frame.size = CGSize(
+            width: linesView.prefferedWidth,
+            height: scrollView.contentSize.height
+        )
+        scrollView.contentInset = UIEdgeInsets(
+            left: linesView.prefferedWidth
+        )
+        scrollView.contentOffset = CGPoint(
+            x: -linesView.prefferedWidth,
+            y: scrollView.contentSize.height
+        )
+    }
 
     @objc private func handleCloseButton() {
-        interactor.close()
+        closeBlock()
     }
 
     // MARK: - UI
@@ -26,7 +45,7 @@ final class DebugMenuLogsViewControllerImpl: ViewController, DebugMenuLogsViewCo
     private var scrollView: UIScrollView!
     private var contentView: UIView!
     private var label: UILabel!
-    private var numbersView: DebugMenuLogsLineNumbersView!
+    private var linesView: DebugMenuFileLinesView!
 
     override func configureViews() {
         view.backgroundColor = System.Colors.Background.primary
@@ -44,12 +63,12 @@ final class DebugMenuLogsViewControllerImpl: ViewController, DebugMenuLogsViewCo
         label = UILabel(numberOfLines: 0)
         contentView.addSubviews(label)
 
-        numbersView = DebugMenuLogsLineNumbersView()
-        view.addSubviews(numbersView)
+        linesView = DebugMenuFileLinesView()
+        view.addSubviews(linesView)
     }
 
     override func configureNavigationBar() {
-        navigationItem.title =  "Logs"
+        navigationItem.title = _title
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .close,
             target: self,
@@ -71,35 +90,14 @@ final class DebugMenuLogsViewControllerImpl: ViewController, DebugMenuLogsViewCo
         }
     }
 
-    // MARK: - DebugMenuLogsViewController
-
-    func setLogs(_ logsAttributedString: NSAttributedString) {
-        let stringSize = logsAttributedString.size()
-
-        label.attributedText = logsAttributedString
-        scrollView.contentSize = stringSize
-        numbersView.numberOfLines = logsAttributedString.string.filter { $0 == "\n" }.count
-        numbersView.frame.size = CGSize(
-            width: numbersView.prefferedWidth,
-            height: scrollView.contentSize.height
-        )
-        scrollView.contentInset = UIEdgeInsets(
-            left: numbersView.prefferedWidth
-        )
-        scrollView.contentOffset = CGPoint(
-            x: -numbersView.prefferedWidth,
-            y: scrollView.contentSize.height
-        )
-    }
-
     // MARK: - UIScrollViewDelegate
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        numbersView.frame = CGRect(
+        linesView.frame = CGRect(
             x: 0,
             y: -scrollView.contentOffset.y,
-            width: numbersView.frame.width,
-            height: numbersView.frame.height
+            width: linesView.frame.width,
+            height: linesView.frame.height
         )
     }
 }

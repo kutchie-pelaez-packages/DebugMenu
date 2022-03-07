@@ -9,6 +9,8 @@ private final class DebugMenuViewNavigationController: UINavigationController, P
 
 protocol DebugMenuRouter: AnyObject {
     func routeToLogs()
+    func routeToDirectoryViewer(at url: URL)
+    func routeToTextFileViewer(at url: URL)
     func routeToActivity(with text: String)
 }
 
@@ -59,22 +61,51 @@ final class DebugMenuRouterImpl: Router, DebugMenuRouter, ActivityDelegate {
     // MARK: - DebugMenuRouter
 
     func routeToLogs() {
-        let debugMenuLogsInteractor = DebugMenuLogsInteractorImpl(
-            logsExtractor: logsExtractor,
-            delegate: delegate
-        )
-        let debugMenuLogsViewController = DebugMenuLogsViewControllerImpl(
-            interactor: debugMenuLogsInteractor
-        )
-
-        debugMenuLogsInteractor.viewController = debugMenuLogsViewController
-
-        debugMenuLogsViewController.invokeWhenViewIsLoaded {
-            debugMenuLogsInteractor.start()
+        let logsInteractor = DebugMenuLogsInteractorImpl(logsExtractor: logsExtractor)
+        let logsViewController = DebugMenuFileViewerController(title: "Logs") {
+            self.delegate?.debugMenuDidRequestClosing()
         }
+        logsViewController.invokeWhenViewIsLoaded {
+            logsInteractor.start()
+        }
+        logsInteractor.viewController = logsViewController
 
         navigationController.pushViewController(
-            debugMenuLogsViewController,
+            logsViewController,
+            animated: true
+        )
+    }
+
+    func routeToDirectoryViewer(at url: URL) {
+        let directoryViewerInteractor = DebugMenuDirectoryViewerInteractorImpl(
+            url: url,
+            delegate: delegate
+        )
+        let directoryViewerViewController = DebugMenuDirectoryViewerViewControllerImpl(interactor: directoryViewerInteractor)
+        directoryViewerViewController.invokeWhenViewIsLoaded {
+            directoryViewerInteractor.start()
+        }
+        directoryViewerInteractor.router = self
+        directoryViewerInteractor.viewController = directoryViewerViewController
+
+        navigationController.pushViewController(
+            directoryViewerViewController,
+            animated: true
+        )
+    }
+
+    func routeToTextFileViewer(at url: URL) {
+        let textViewerInteractor = DebugMenuTextFileViewerInteractor(url: url)
+        let textViewerViewController = DebugMenuFileViewerController(title: url.lastPathComponent) {
+            self.delegate?.debugMenuDidRequestClosing()
+        }
+        textViewerViewController.invokeWhenViewIsLoaded {
+            textViewerInteractor.start()
+        }
+        textViewerInteractor.viewController = textViewerViewController
+
+        navigationController.pushViewController(
+            textViewerViewController,
             animated: true
         )
     }

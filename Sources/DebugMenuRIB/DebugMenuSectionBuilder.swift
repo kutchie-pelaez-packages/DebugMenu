@@ -19,6 +19,7 @@ protocol DebugMenuSectionBuilder {
     func build(for safeArea: DebugMenuGridDomain.SafeArea?) -> System.TableView.Section?
     func build(for centringGuides: DebugMenuGridDomain.CentringGuides?) -> System.TableView.Section?
     func buildLoggingSection() -> System.TableView.Section
+    func buildFilesSection() -> System.TableView.Section
 }
 
 private enum Symbols: SymbolsCollection {
@@ -490,7 +491,7 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
     }
 
     func buildLoggingSection() -> System.TableView.Section {
-        return System.TableView.Section(
+        System.TableView.Section(
             rows: [
                 System.TableView.Row(
                     content: System.TableView.SystemContent(
@@ -519,6 +520,29 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
             ],
             header: System.TableView.SystemHeader(
                 text: "LOGGING",
+                font: System.Fonts.Mono.regular(13)
+            )
+        )
+    }
+
+    func buildFilesSection() -> System.TableView.Section {
+        System.TableView.Section(
+            rows: [
+                System.TableView.Row(
+                    content: System.TableView.SystemContent(
+                        title: System.TableView.SystemContent.Title(
+                            text: "View documents directory",
+                            font: System.Fonts.Mono.regular(17),
+                            color: System.Colors.Tint.primary
+                        )
+                    ),
+                    action: {
+                        interactor?.showDocuments()
+                    }
+                )
+            ],
+            header: System.TableView.SystemHeader(
+                text: "FILES",
                 font: System.Fonts.Mono.regular(13)
             )
         )

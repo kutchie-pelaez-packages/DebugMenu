@@ -1,9 +1,7 @@
 import CoreUI
 import UIKit
 
-final class DebugMenuLogsLineNumbersView: View {
-    static let leftInset: Double = 6
-    static let rightInset: Double = 6
+final class DebugMenuFileLinesView: View {
 
     private var backgroundView: UIView!
     private var label: UILabel!
@@ -16,7 +14,7 @@ final class DebugMenuLogsLineNumbersView: View {
         addSubviews(backgroundView)
 
         label = UILabel(
-            font: DebugMenuLogsViewControllerImpl.font,
+            font: DebugMenuConstants.FileViewer.font,
             textColor: System.Colors.Label.tertiary,
             numberOfLines: 0,
             textAlignment: .right
@@ -32,8 +30,8 @@ final class DebugMenuLogsLineNumbersView: View {
         }
 
         label.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(Self.leftInset)
-            make.right.equalToSuperview().inset(Self.rightInset)
+            make.left.equalToSuperview().inset(DebugMenuConstants.FileViewer.Lines.leftInset)
+            make.right.equalToSuperview().inset(DebugMenuConstants.FileViewer.Lines.rightInset)
             make.top.equalToSuperview().inset(-6)
             make.bottom.equalToSuperview().inset(6)
         }
@@ -41,10 +39,10 @@ final class DebugMenuLogsLineNumbersView: View {
 
     var prefferedWidth: Double {
         let textWidth = "\(numberOfLines)".size(
-            font: DebugMenuLogsViewControllerImpl.font
+            font: DebugMenuConstants.FileViewer.font
         ).width
 
-        return Self.leftInset + textWidth + Self.rightInset
+        return DebugMenuConstants.FileViewer.Lines.leftInset + textWidth + DebugMenuConstants.FileViewer.Lines.rightInset
     }
 
     // MARK: -

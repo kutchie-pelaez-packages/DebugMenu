@@ -4,28 +4,16 @@ import Foundation
 import LogsExtractor
 import UIKit
 
-protocol DebugMenuLogsInteractor {
-    func close()
-}
+protocol DebugMenuLogsInteractor { }
 
 final class DebugMenuLogsInteractorImpl: DebugMenuLogsInteractor {
-    init(
-        logsExtractor: LogsExtractor,
-        delegate: DebugMenuDelegate?
-    ) {
+    init(logsExtractor: LogsExtractor) {
         self.logsExtractor = logsExtractor
-        self.delegate = delegate
     }
 
     private let logsExtractor: LogsExtractor
-    private weak var delegate: DebugMenuDelegate?
 
-    weak var viewController: DebugMenuLogsViewController?
-
-    // MARK: - DebugMenuInteractor
-
-    // yellow:
-    // red:
+    weak var viewController: DebugMenuFileViewerController?
 
     func start() {
         guard
@@ -45,9 +33,9 @@ final class DebugMenuLogsInteractorImpl: DebugMenuLogsInteractor {
         for line in lines {
             let backgroundColor: UIColor
             if line.contains("🔴") {
-                backgroundColor = UIColor(hex: 0xF9D5D256)
+                backgroundColor = DebugMenuConstants.LogsViewer.Colors.error
             } else if line.contains("🟡") {
-                backgroundColor = UIColor(hex: 0xFFF3CB59)
+                backgroundColor = DebugMenuConstants.LogsViewer.Colors.warning
             } else {
                 backgroundColor = .clear
             }
@@ -66,18 +54,14 @@ final class DebugMenuLogsInteractorImpl: DebugMenuLogsInteractor {
                 NSAttributedString(
                     string: replacedline,
                     attributes: [
-                        .font: DebugMenuLogsViewControllerImpl.font,
-                        .foregroundColor: System.Colors.Label.primary,
+                        .font: DebugMenuConstants.FileViewer.font,
+                        .foregroundColor: DebugMenuConstants.FileViewer.color,
                         .backgroundColor: backgroundColor
                     ]
                 )
             )
         }
 
-        viewController?.setLogs(result)
-    }
-
-    func close() {
-        delegate?.debugMenuDidRequestClosing()
+        viewController?.setContent(result)
     }
 }

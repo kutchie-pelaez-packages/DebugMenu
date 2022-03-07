@@ -89,6 +89,7 @@ let package = Package(
                 .product(name: "Tweak", package: "Tweaks"),
                 .product(name: "TweakEmitter", package: "Tweaks"),
                 .product(name: "Wording", package: "Wording"),
+                .target(name: "DebugGridOverlay"),
                 .target(name: "DebugMenuDomains")
             ]
         ),
