@@ -10,7 +10,7 @@ protocol DebugMenuInteractor: AnyObject {
     func selectDomain(at index: Int)
     func showLogs()
     func exportLogs()
-    func showDocuments()
+    func showFiles(at url: URL)
 }
 
 final class DebugMenuInteractorImpl: DebugMenuInteractor {
@@ -143,7 +143,7 @@ final class DebugMenuInteractorImpl: DebugMenuInteractor {
         router?.routeToActivity(with: logsString)
     }
 
-    func showDocuments() {
-        router?.routeToDirectoryViewer(at: FileManager.default.documents)
+    func showFiles(at url: URL) {
+        router?.routeToDirectoryViewer(at: url)
     }
 }

@@ -2,6 +2,7 @@ import AppearanceStyle
 import Core
 import CoreUI
 import DebugMenuDomains
+import Foundation
 import Language
 import LocalizationManager
 import PermissionsManager
@@ -531,13 +532,25 @@ struct DebugMenuSectionBuilderImpl: DebugMenuSectionBuilder {
                 System.TableView.Row(
                     content: System.TableView.SystemContent(
                         title: System.TableView.SystemContent.Title(
-                            text: "View documents directory",
+                            text: "Documents",
                             font: System.Fonts.Mono.regular(17),
                             color: System.Colors.Tint.primary
                         )
                     ),
                     action: {
-                        interactor?.showDocuments()
+                        interactor?.showFiles(at: FileManager.default.documents)
+                    }
+                ),
+                System.TableView.Row(
+                    content: System.TableView.SystemContent(
+                        title: System.TableView.SystemContent.Title(
+                            text: "Temporary directory",
+                            font: System.Fonts.Mono.regular(17),
+                            color: System.Colors.Tint.primary
+                        )
+                    ),
+                    action: {
+                        interactor?.showFiles(at: FileManager.default.temporaryDirectory)
                     }
                 )
             ],
