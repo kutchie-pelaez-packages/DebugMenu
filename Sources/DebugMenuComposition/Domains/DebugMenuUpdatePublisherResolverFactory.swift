@@ -7,9 +7,9 @@ struct DebugMenuUpdatePublisherResolverFactory {
     func produce() -> Resolver<VoidPublisher> {
         {
             Publishers.Merge(
-                parent.localizationManager.languageSubject.eraseToVoidPublisher(),
-                parent.sessionManager.sessionValueSubject.eraseToVoidPublisher()
-            ).eraseToVoidPublisher()
+                parent.localizationManager.languageSubject.voided(),
+                parent.sessionManager.sessionValueSubject.voided()
+            ).voided()
         }
     }
 }
